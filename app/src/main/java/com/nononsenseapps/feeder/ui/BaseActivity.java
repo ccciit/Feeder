@@ -469,6 +469,7 @@ public class BaseActivity extends AppCompatActivity
                 boolean force = false;
                 int firstVisibleItem =
                         layoutManager.findFirstVisibleItemPosition();
+                Log.d("JONAS", "FirstVisible:" + firstVisibleItem);
                 if (recyclerView.getAdapter() != null) {
                     int lastPos = recyclerView.getAdapter().getItemCount() - 1;
                     if (layoutManager.findLastVisibleItemPosition() == lastPos) {

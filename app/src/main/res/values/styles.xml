@@ -16,7 +16,7 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="isFloatingWindow">true</item>
-        <item name="android:windowContentOverlay">@null</item>
+        <!--<item name="android:windowContentOverlay">@null</item>-->
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -26,8 +26,8 @@
     </style>
     <!-- Final application theme. -->
     <style name="AppTheme" parent="Theme.IOSched.Base">
-        <item name="android:windowActionModeOverlay">true</item>
-        <item name="windowActionModeOverlay">true</item>
+        <!--<item name="android:windowActionModeOverlay">false</item>-->
+        <!--<item name="windowActionModeOverlay">false</item>-->
 
         <item name="cpbStyle">@style/FeedSearchProgressStyle</item>
     </style>
@@ -50,18 +50,22 @@
         <item name="android:editTextBackground">@drawable/edit_text</item>
     </style>
 
-    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.NoActionBar" />
-    <style name="FrameworkRoot.ThemeDialog" parent="Theme.AppCompat.Dialog" />
+    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.NoActionBar" >
+        <item name="windowActionBar">false</item>
+        </style>
+    <style name="FrameworkRoot.ThemeDialog" parent="Theme.AppCompat.Dialog" >
+        <item name="windowActionBar">false</item>
+        </style>
 
     <style name="Theme.IOSched.Base" parent="Theme">
-        <item name="actionBarOverlayTopOffset">?actionBarSize</item>
+        <!--<item name="actionBarOverlayTopOffset">?actionBarSize</item>-->
         <item name="actionBarInsetStart">?actionBarSize</item>
         <item name="spinnerBarInsetStart">?actionBarSize</item>
         <item name="selectableItemBackgroundBorderless">?android:selectableItemBackgroundBorderless</item>
         <item name="popupItemBackground">?android:selectableItemBackground</item>
         <item name="photoItemForeground">?android:selectableItemBackground</item>
 
-        <item name="android:windowContentOverlay">@null</item>
+        <!--<item name="android:windowContentOverlay">@null</item>-->
         <item name="android:windowBackground">@color/window_background</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_up</item>
 
@@ -76,14 +80,14 @@
 
     </style>
     <style name="Theme.IOSched.BaseDialog" parent="ThemeDialog">
-        <item name="actionBarOverlayTopOffset">?actionBarSize</item>
+        <!--<item name="actionBarOverlayTopOffset">?actionBarSize</item>-->
         <item name="actionBarInsetStart">?actionBarSize</item>
         <item name="spinnerBarInsetStart">?actionBarSize</item>
         <item name="selectableItemBackgroundBorderless">?android:selectableItemBackgroundBorderless</item>
         <item name="popupItemBackground">?android:selectableItemBackground</item>
         <item name="photoItemForeground">?android:selectableItemBackground</item>
 
-        <item name="android:windowContentOverlay">@null</item>
+        <!--<item name="android:windowContentOverlay">@null</item>-->
         <item name="android:windowBackground">@color/dialog_background</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_up</item>
 

@@ -398,7 +398,7 @@ public class FeedFragment extends Fragment
         if (ab != null) {
             ab.setTitle(title);
         }
-        ((BaseActivity) getActivity()).enableActionBarAutoHide(mRecyclerView);
+        //((BaseActivity) getActivity()).enableActionBarAutoHide(mRecyclerView);
     }
 
     @Override
