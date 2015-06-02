@@ -316,35 +316,35 @@ public class FeedFragment extends Fragment
         });
 
         // Set up the empty view
-        mEmptyView = rootView.findViewById(android.R.id.empty);
-        mEmptyAddFeed = mEmptyView.findViewById(R.id.empty_add_feed);
-        ((TextView) mEmptyAddFeed).setText(android.text.Html.fromHtml
-                (getString(R.string.empty_feed_add)));
-        mEmptyOpenFeeds = mEmptyView.findViewById(R.id.empty_open_feeds);
-        ((TextView) mEmptyOpenFeeds).setText(android.text.Html.fromHtml
-                (getString(R.string.empty_feed_open)));
-
-        mEmptyAddFeed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                startActivity(new Intent(getActivity(),
-                        EditFeedActivity.class));
-            }
-        });
-
-        mEmptyOpenFeeds.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                ((BaseActivity) getActivity()).openNavDrawer();
-            }
-        });
+//        mEmptyView = rootView.findViewById(android.R.id.empty);
+//        mEmptyAddFeed = mEmptyView.findViewById(R.id.empty_add_feed);
+//        ((TextView) mEmptyAddFeed).setText(android.text.Html.fromHtml
+//                (getString(R.string.empty_feed_add)));
+//        mEmptyOpenFeeds = mEmptyView.findViewById(R.id.empty_open_feeds);
+//        ((TextView) mEmptyOpenFeeds).setText(android.text.Html.fromHtml
+//                (getString(R.string.empty_feed_open)));
+//
+//        mEmptyAddFeed.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//                startActivity(new Intent(getActivity(),
+//                        EditFeedActivity.class));
+//            }
+//        });
+//
+//        mEmptyOpenFeeds.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//                ((BaseActivity) getActivity()).openNavDrawer();
+//            }
+//        });
 
         // specify an adapter
         mAdapter = new FeedAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
         // check all button
-        mCheckAllButton = rootView.findViewById(R.id.checkall_button);
+        mCheckAllButton = getActivity().findViewById(R.id.checkall_button);
         mCheckAllButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -590,7 +590,7 @@ public class FeedFragment extends Fragment
             HashMap<FeedItemSQL, Integer> map = (HashMap<FeedItemSQL, Integer>) result;
             mAdapter.updateData(map);
             boolean empty = mAdapter.getItemCount() <= 2;
-            mEmptyView.setVisibility(empty ? View.VISIBLE : View.GONE);
+//            mEmptyView.setVisibility(empty ? View.VISIBLE : View.GONE);
             mSwipeRefreshLayout.setVisibility(empty ? View.GONE : View.VISIBLE);
         } else if (FEED_LOADER == cursorLoader.getId()) {
             Cursor cursor = (Cursor) result;

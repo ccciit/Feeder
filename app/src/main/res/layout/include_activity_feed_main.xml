@@ -92,4 +92,19 @@
         <include layout="@layout/empty_feeds_at_all" />
     </FrameLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/checkall_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:scaleType="center"
+        android:layout_marginEnd="@dimen/keyline_1"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:borderWidth="0dp"
+        app:fabSize="normal"
+        app:elevation="5dp"
+        app:pressedTranslationZ="7dp"
+        android:src="@drawable/ic_action_done_all"/>
+
 </android.support.design.widget.CoordinatorLayout>
