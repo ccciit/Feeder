@@ -254,10 +254,6 @@ public class FeedFragment extends Fragment
                 inflater.inflate(R.layout.fragment_feed, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(android.R.id.list);
 
-        // improve performance if you know that changes in content
-        // do not change the size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
         if (TabletUtils.isTablet(getActivity())) {
             final int cols = TabletUtils.numberOfFeedColumns(getActivity());
             // use a grid layout
