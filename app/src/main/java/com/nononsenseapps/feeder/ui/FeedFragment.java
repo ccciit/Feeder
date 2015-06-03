@@ -683,7 +683,7 @@ public class FeedFragment extends Fragment
 
                 @Override
                 public void onMoved(int fromPosition, int toPosition) {
-                    FeedAdapter.this.notifyItemMoved(headerCount + fromPosition, 1 + toPosition);
+                    FeedAdapter.this.notifyItemMoved(headerCount + fromPosition, headerCount + toPosition);
                 }
 
                 @Override
@@ -825,7 +825,7 @@ public class FeedFragment extends Fragment
             holder.resetView();
 
             // Compensate for header
-            final int position = hposition - 1;
+            final int position = hposition - headerCount;
 
             // Get item
             final FeedItemSQL item = mItems.get(position);
