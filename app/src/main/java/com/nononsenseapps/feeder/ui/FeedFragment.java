@@ -629,6 +629,9 @@ public class FeedFragment extends Fragment
         public static final int HEADERTYPE = 0;
         public static final int ITEMTYPE = 1;
 
+        private final int headerCount = 1;
+        private final int footerCount = 1;
+
         // 64dp at xhdpi is 128 pixels
         private final int defImgWidth;
         private final int defImgHeight;
@@ -670,22 +673,22 @@ public class FeedFragment extends Fragment
 
                 @Override
                 public void onInserted(int position, int count) {
-                    FeedAdapter.this.notifyItemRangeInserted(1 + position, count);
+                    FeedAdapter.this.notifyItemRangeInserted(headerCount + position, count);
                 }
 
                 @Override
                 public void onRemoved(int position, int count) {
-                    FeedAdapter.this.notifyItemRangeRemoved(1 + position, count);
+                    FeedAdapter.this.notifyItemRangeRemoved(headerCount + position, count);
                 }
 
                 @Override
                 public void onMoved(int fromPosition, int toPosition) {
-                    FeedAdapter.this.notifyItemMoved(1 + fromPosition, 1 + toPosition);
+                    FeedAdapter.this.notifyItemMoved(headerCount + fromPosition, 1 + toPosition);
                 }
 
                 @Override
                 public void onChanged(int position, int count) {
-                    FeedAdapter.this.notifyItemRangeChanged(1 + position, count);
+                    FeedAdapter.this.notifyItemRangeChanged(headerCount + position, count);
                 }
 
                 @Override
@@ -727,12 +730,13 @@ public class FeedFragment extends Fragment
 
         @Override
         public long getItemId(final int hposition) {
-            if (hposition == 0) {
+            if (hposition < headerCount) {
                 // header
                 return -2;
             } else {
-                int position = hposition - 1;
+                int position = hposition - headerCount;
                 if (position >= mItems.size()) {
+                    // footer
                     return -3;
                 } else {
                     return mItems.get(position).id;
@@ -770,13 +774,14 @@ public class FeedFragment extends Fragment
         @Override
         public int getItemCount() {
             // header + rest
-            return 2 + mItems.size();
+            return headerCount + footerCount + mItems.size();
         }
 
 
         @Override
         public int getItemViewType(int position) {
-            if (position == 0 || (position - 1) >= mItems.size()) {
+            if (position < headerCount || (position - headerCount) >= mItems.size()) {
+                // header or footer
                 return HEADERTYPE;
             } else {
                 return ITEMTYPE;
