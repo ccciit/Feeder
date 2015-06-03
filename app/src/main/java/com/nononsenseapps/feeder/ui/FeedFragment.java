@@ -26,8 +26,6 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -40,11 +38,11 @@ import android.support.v7.util.SortedList;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ActionMode;
@@ -69,7 +67,6 @@ import com.nononsenseapps.feeder.db.Util;
 import com.nononsenseapps.feeder.model.AuthHelper;
 import com.nononsenseapps.feeder.model.RssSyncAdapter;
 import com.nononsenseapps.feeder.model.RssSyncHelper;
-import com.nononsenseapps.feeder.util.DeltaCursorLoader;
 import com.nononsenseapps.feeder.util.FeedItemDeltaCursorLoader;
 import com.nononsenseapps.feeder.util.PrefUtils;
 import com.nononsenseapps.feeder.util.TabletUtils;
@@ -101,15 +98,13 @@ public class FeedFragment extends Fragment
     private static final String ONLY_UNREAD = FeedItemSQL.COL_UNREAD + " IS 1 ";
     private static final String AND_UNREAD = " AND " + ONLY_UNREAD;
     private static final String TAG = "FeedFragment";
+    private final BroadcastReceiver mSyncReceiver;
     private FeedAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private View mEmptyView;
     private View mEmptyAddFeed;
     private View mEmptyOpenFeeds;
-
-    private final BroadcastReceiver mSyncReceiver;
-
     private long id = -1;
     private String title = "";
     private String url = "";
@@ -291,7 +286,11 @@ public class FeedFragment extends Fragment
         // Set the offset so it comes out of the correct place
         final int toolbarHeight = getResources().getDimensionPixelOffset(R.dimen.toolbar_height);
         final int totalToolbarHeight = getResources().getDimensionPixelOffset(R.dimen.total_toolbar_height);
-        mSwipeRefreshLayout.setProgressViewOffset(false, toolbarHeight, Math.round(1.5f * totalToolbarHeight));
+        final DisplayMetrics metrics = getResources().getDisplayMetrics();
+
+        // Taken from the layout, default size is 40dp and default scroll position is 64 dp
+        mSwipeRefreshLayout.setProgressViewOffset(false, (int) (-40 * metrics.density),
+                (int) (64 * metrics.density));
 
         // The arrow will cycle between these colors (in order)
         mSwipeRefreshLayout.setColorSchemeResources(
@@ -643,9 +642,8 @@ public class FeedFragment extends Fragment
         private final int linkColor;
         private final Drawable bgProtection;
         private final SortedList<FeedItemSQL> mItems;
-        private HashMap<Long, FeedItemSQL> mItemMap;
-
         String temps;
+        private HashMap<Long, FeedItemSQL> mItemMap;
 
         public FeedAdapter(final Context context) {
             super();
