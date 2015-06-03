@@ -585,9 +585,9 @@ public class FeedFragment extends Fragment
         if (FEEDITEMS_LOADER == cursorLoader.getId()) {
             HashMap<FeedItemSQL, Integer> map = (HashMap<FeedItemSQL, Integer>) result;
             mAdapter.updateData(map);
-            boolean empty = mAdapter.getItemCount() <= 2;
+            boolean empty = mAdapter.getItemCount() <= mAdapter.headerCount + mAdapter.footerCount;
 //            mEmptyView.setVisibility(empty ? View.VISIBLE : View.GONE);
-            mSwipeRefreshLayout.setVisibility(empty ? View.GONE : View.VISIBLE);
+//            mSwipeRefreshLayout.setVisibility(empty ? View.GONE : View.VISIBLE);
         } else if (FEED_LOADER == cursorLoader.getId()) {
             Cursor cursor = (Cursor) result;
             if (cursor.moveToFirst()) {
@@ -629,7 +629,7 @@ public class FeedFragment extends Fragment
         public static final int HEADERTYPE = 0;
         public static final int ITEMTYPE = 1;
 
-        private final int headerCount = 1;
+        private final int headerCount = 0;
         private final int footerCount = 1;
 
         // 64dp at xhdpi is 128 pixels
@@ -747,6 +747,7 @@ public class FeedFragment extends Fragment
         public void updateData(HashMap<FeedItemSQL, Integer> map) {
             HashMap<Long, FeedItemSQL> oldItemMap = mItemMap;
             mItemMap = new HashMap<>();
+            final int oldSize = mItems.size();
             mItems.beginBatchedUpdates();
             for (FeedItemSQL item : map.keySet()) {
                 if (map.get(item) >= 0) {
@@ -767,6 +768,9 @@ public class FeedFragment extends Fragment
             // the loader is restarted, then it has no old data to go on.
             for (FeedItemSQL item : oldItemMap.values()) {
                 mItems.remove(item);
+            }
+            if (oldSize < 1) {
+                mRecyclerView.scrollToPosition(0);
             }
             mItems.endBatchedUpdates();
         }
