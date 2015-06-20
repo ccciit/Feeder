@@ -229,11 +229,11 @@ def feeditem_to_dict(item, read=False):
              title_stripped=item['title_stripped'],
              snippet=item['snippet'],
              published=item['published'],
-             author=item['author'],
-             comments=item['comments'],
-             enclosure=item['enclosure'],
-             image=item['image'],
-             json=item['json'],
+             author=item['author'] if 'author' in item else None,
+             comments=item['comments'] if 'comments' in item else None,
+             enclosure=item['enclosure'] if 'enclosure' in item else None,
+             image=item['image'] if 'image' in item else None,
+             json=item['json'] if 'json' in item else None,
              read=read)
 
     return unescapedict(d)
