@@ -142,6 +142,9 @@ class Feeds(Resource):
         feeds = []
         for r in res:
             feed = feed_to_dict(r['feed'])
+            sub = r['subscription']
+            feed['title'] = sub['title']
+            feed['tag'] = sub['tag']
             # Set items on feed for json conversion
             feed['items'] = [feeditem_to_dict(i) for i in r['items']]
             # Add to list

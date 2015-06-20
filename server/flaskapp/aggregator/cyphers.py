@@ -74,10 +74,10 @@ def get_users_new_feeditems(email, lastsync):
     cph = """\
     MATCH (:User {{ email: {email} }})-[s:SUBSCRIBES]->(feed:Feed)
     WHERE s.timestamp > {lastsync} OR feed.timestamp > {lastsync}
-    WITH feed
+    WITH feed, s
     OPTIONAL MATCH (feed)<-[:IN]-(item:Item)
     WHERE item.timestamp > {lastsync}
-    RETURN feed, COLLECT(item) as items
+    RETURN feed, s as subscription, COLLECT(item) as items
     """
     return cph.format(email=email, lastsync=lastsync)
 

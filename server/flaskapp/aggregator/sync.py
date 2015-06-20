@@ -53,7 +53,7 @@ def parse_feed(db, rss):
         try:
             print("Ignored:", f.link, rss.debug_message)
         except:
-            print("Ignored:", f.link)
+            print("Ignored:", f.get("link", ""))
         # This happens when server reports no new items
         return
 

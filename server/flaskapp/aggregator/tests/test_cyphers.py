@@ -181,9 +181,10 @@ def test_synced_one(graph):
 
     for r in res:
         # Feed and items
-        assert len(r) == 2
+        assert len(r) == 3
         assert r['feed'] is not None
         assert r['items'] is not None
+        assert r['subscription'] is not None
 
         feed = r['feed']
         items = r['items']
@@ -261,9 +262,10 @@ def test_synced_many(graph):
 
     for r in res:
         # Feed and items
-        assert len(r) == 2
+        assert len(r) == 3
         assert r['feed'] is not None
         assert r['items'] is not None
+        assert r['subscription'] is not None
 
         feed = r['feed']
         items = r['items']
@@ -289,9 +291,10 @@ def test_synced_many(graph):
 
     for r in res:
         # Feed and items
-        assert len(r) == 2
+        assert len(r) == 3
         assert r['feed'] is not None
         assert r['items'] is not None
+        assert r['subscription'] is not None
 
         feed = r['feed']
         items = r['items']
