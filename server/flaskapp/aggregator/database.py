@@ -87,6 +87,10 @@ class GraphDB(object):
             d['items'] = [i['item']['data'] if i['item'] is not None else None for i in r['items']]
             d['reads'] = [i['read'] is not None for i in r['items']]
 
+            if len(d['items']) == 1 and d['items'][0] is None:
+                d['items'] = []
+                d['reads'] = []
+
             result.append(d)
         return result
 
