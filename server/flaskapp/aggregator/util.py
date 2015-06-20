@@ -232,7 +232,9 @@ def feeditem_to_dict(item):
              author=item['author'],
              comments=item['comments'],
              enclosure=item['enclosure'],
-             image=item['image'])
+             image=item['image'],
+             json=item['json'],
+             read=False)
 
     return unescapedict(d)
 

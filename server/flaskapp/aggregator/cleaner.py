@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .util import parse_timestamp, datetuple_to_timestamp, escaped
+import json
 import re
 import html
 
@@ -66,14 +67,14 @@ def get_clean_entry(item, timestamp):
 
     guid = item.get("id", item.link)
 
-    return make_item(timestamp=timestamp, guid=guid, link=item.link,
+    return make_unescaped_item(timestamp=timestamp, guid=guid, link=item.link,
                      title=item.title, description=clean_description,
                      title_stripped=get_snippet(item.title),
                      snippet=get_snippet(clean_description),
                      published=published, author=item.get("author", None),
                      comments=item.get("comments", None),
                      enclosure=enclosure, image=get_image(clean_description),
-                     json=item)
+                     json=json.dumps(item))
 
 
 def get_snippet(text, maxlen=120):
