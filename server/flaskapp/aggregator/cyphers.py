@@ -113,6 +113,11 @@ def get_subscribed_feeds():
     return cph
 
 
+@escaped
+def set_read(email, guid, feedlink):
+    raise ValueError("Not implemented")
+
+
 def on_synced(feed, ts, items):
     '''
     Feed will always exist.
@@ -139,7 +144,8 @@ MERGE (f)<-[:IN]-(i:Item {{ guid: {guid} }} )
 SET i.link = {link}, i.title = {title}, i.description = {description}, \
 i.title_stripped = {title_stripped}, i.snippet = {snippet}, \
 i.timestamp = {ts}, i.published = {published}, i.author = {author}, \
-i.comments = {comments}, i.enclosure = {enclosure}, i.image = {image}
+i.comments = {comments}, i.enclosure = {enclosure}, i.image = {image}, \
+i.json = {json}
 """.format(ts=ts,
            guid=i['guid'],
            link=i['link'],
@@ -151,7 +157,8 @@ i.comments = {comments}, i.enclosure = {enclosure}, i.image = {image}
            author=i['author'],
            comments=i['comments'],
            enclosure=i['enclosure'],
-           image=i['image'])
+           image=i['image'],
+           json=i['json'])
 
     return s
 
