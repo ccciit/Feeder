@@ -82,7 +82,7 @@ class GraphDB(object):
         for r in res:
             d = {}
             d['feed'] = r['feed']
-            d['subscription'] = r['subscripion']
+            d['subscription'] = r['subscription']
             d['items'] = [i['item']['data'] for i in r['items']]
             d['reads'] = [i['read'] is not None for i in r['items']]
 
