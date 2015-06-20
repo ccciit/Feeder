@@ -106,6 +106,8 @@ def test_subscribe(graph):
     print(res)
     assert len(res) == 1
     assert res[0]['feed']['link'] == _feed1_link
+    assert res[0]['subscription']['usertitle'] == 'mytitle'
+    assert res[0]['subscription']['usertag'] == 'mytag'
 
     # Subscribe Frank
     res = graph.cypher.execute(subscribe(_frank, _feed1_link, None, None))

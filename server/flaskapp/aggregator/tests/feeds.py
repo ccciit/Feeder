@@ -3,7 +3,7 @@
 
 testfeed_link = "http://cowboyprogrammer.org/"
 
-testfeed = """
+testfeed = """\
 <?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:content="http://purl.org/rss/1.0/modules/content/"
@@ -43,7 +43,7 @@ testfeed = """
 """
 
 
-testfeed_updated = """
+testfeed_updated = """\
 <?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:content="http://purl.org/rss/1.0/modules/content/"

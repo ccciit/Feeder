@@ -142,16 +142,18 @@ class Feeds(Resource):
         feeds = []
         for r in res:
             feed = feed_to_dict(r['feed'])
+            # If feed has no title, it has not synced.
+            # Result must have a valid title, move on
+            if feed['title'] is None:
+                continue
+
             sub = r['subscription']
 
-            if sub['title'] is not None:
-                feed['title'] = sub['title']
+            # Set user title if it exists
+            if sub['usertitle'] is not None:
+                feed['title'] = sub['usertitle']
 
-            if feed['title'] is None:
-                print("Feed", feed['link'], "had no title")
-                feed['title'] = ''
-
-            feed['tag'] = sub['tag']
+            feed['tag'] = sub['usertag']
             # Set items on feed for json conversion
             feed['items'] = [feeditem_to_dict(i) for i in r['items']]
             # Add to list
