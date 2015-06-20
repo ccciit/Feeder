@@ -458,3 +458,10 @@ def test_guid_conflict(graph):
 
     assert len(res) == 1
     assert res[0]['count'] == 2
+
+
+def test_set_read(graph):
+    res = graph.cypher.execute(set_read(_frank, "guid0", _feed1_link))
+    print(res)
+    assert len(res) == 1
+    assert res[0]['read'] is not None

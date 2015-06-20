@@ -115,7 +115,13 @@ def get_subscribed_feeds():
 
 @escaped
 def set_read(email, guid, feedlink):
-    raise ValueError("Not implemented")
+    cph = """\
+    MATCH (feed:Feed {{link: {fl} }})<-[:IN]-(item:Item {{guid: {guid} }}), \
+    (u:User {{email: {email} }})
+    CREATE UNIQUE (u)-[r:READ]->(item)
+    RETURN r as read
+    """.format(fl=feedlink, guid=guid, email=email)
+    return cph
 
 
 def on_synced(feed, ts, items):
