@@ -9,7 +9,8 @@ from .cyphers import (get_subscribed_feeds, cleanup_items,
                       get_user, get_users_new_feeditems,
                       get_users_new_unsubscribes,
                       get_feed_and_items, unsubscribe,
-                      feed_constraints, user_constraints)
+                      feed_constraints, user_constraints,
+                      set_read)
 
 
 _db = None
@@ -77,7 +78,16 @@ class GraphDB(object):
 
         res = self.graph.cypher.execute(get_users_new_feeditems(email,
                                                                 lastsync))
-        return res
+        result = []
+        for r in res:
+            d = {}
+            d['feed'] = r['feed']
+            d['subscription'] = r['subscripion']
+            d['items'] = [i['item']['data'] for i in r['items']]
+            d['reads'] = [i['read'] is not None for i in r['items']]
+
+            result.append(d)
+        return result
 
     def get_users_new_unsubscribes(self, email, lastsync=None):
         if lastsync is None:
@@ -86,3 +96,6 @@ class GraphDB(object):
         res = self.graph.cypher.execute(get_users_new_unsubscribes(email,
                                                                    lastsync))
         return res
+
+    def mark_as_read(self, email, guid, feedlink):
+        self.graph.cypher.execute(set_read(email, guid, feedlink))

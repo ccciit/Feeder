@@ -216,7 +216,7 @@ def feed_to_dict(feed):
     return unescapedict(d)
 
 
-def feeditem_to_dict(item):
+def feeditem_to_dict(item, read=False):
     '''
     Convert a Node object to normal dict.
     Unescapes values.
@@ -234,7 +234,7 @@ def feeditem_to_dict(item):
              enclosure=item['enclosure'],
              image=item['image'],
              json=item['json'],
-             read=False)
+             read=read)
 
     return unescapedict(d)
 

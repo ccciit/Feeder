@@ -190,12 +190,15 @@ def test_synced_one(graph):
 
         feed = r['feed']
         items = r['items']
+
         if feed['link'] == _feed1_link:
             # First feed has ONE item
             assert len(items) == 1
+            assert items[0]['item'] is not None
         else:
             # Second feed has no items
-            assert len(items) == 0
+            assert len(items) == 1
+            assert items[0]['item'] is None
 
 
 def test_synced_many(graph):
@@ -274,13 +277,13 @@ def test_synced_many(graph):
         if feed['link'] == _feed1_link:
             # First feed has X items
             assert len(items) == count
+            for i in items:
+                assert i['item'] is not None
+                assert i['read'] is None
         elif feed['link'] == _feed2_link:
             # Second feed has no items
-            assert len(items) == 0
-        else:
-            # Third feed is an unsubscription
-            assert len(items) == 0
-            assert 0
+            assert len(items) == 1
+            assert items[0]['item'] is None
 
     # Now filter items by timestamp
     # Query should only return 4 items now
@@ -304,10 +307,12 @@ def test_synced_many(graph):
             # First feed has X items
             assert len(items) == 4
             for i in items:
-                assert i['timestamp'] > lastsync
+                print(i['item']['data'])
+                assert i['item']['data']['timestamp'] > lastsync
         else:
             # Second feed has no items
-            assert len(items) == 0
+            assert len(items) == 1
+            assert items[0]['item'] is None
 
     # And then we have one unsubscription
     res = graph.cypher.execute(get_users_new_unsubscribes(_frank, lastsync))
@@ -462,6 +467,22 @@ def test_guid_conflict(graph):
 
 def test_set_read(graph):
     res = graph.cypher.execute(set_read(_frank, "guid0", _feed1_link))
-    print(res)
+
     assert len(res) == 1
     assert res[0]['read'] is not None
+
+    # Check return from get items
+    res = graph.cypher.execute(get_users_new_feeditems(_frank, 0))
+
+    for r in res:
+        assert r['feed'] is not None
+        assert r['items'] is not None
+        if r['feed']['link'] == _feed1_link:
+            items = [i['item']['data'] for i in r['items']]
+            reads = [i['read'] for i in r['items']]
+
+            for i, r in zip(items, reads):
+                if i['guid'] == "guid0":
+                    assert r is not None
+                else:
+                    assert r is None

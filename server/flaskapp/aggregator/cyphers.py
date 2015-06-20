@@ -72,12 +72,13 @@ def get_user_feeds(email):
 @escaped
 def get_users_new_feeditems(email, lastsync):
     cph = """\
-    MATCH (:User {{ email: {email} }})-[s:SUBSCRIBES]->(feed:Feed)
+    MATCH (user:User {{ email: {email} }})-[s:SUBSCRIBES]->(feed:Feed)
     WHERE s.timestamp > {lastsync} OR feed.timestamp > {lastsync}
-    WITH feed, s
+    WITH user, feed, s
     OPTIONAL MATCH (feed)<-[:IN]-(item:Item)
     WHERE item.timestamp > {lastsync}
-    RETURN feed, s as subscription, COLLECT(item) as items
+    OPTIONAL MATCH (user)-[r:READ]->(item)
+    RETURN feed, s as subscription, COLLECT({{item: item, read: r}}) as items
     """
     return cph.format(email=email, lastsync=lastsync)
 

@@ -65,6 +65,13 @@ deleteparser = reqparse.RequestParser()
 deleteparser.add_argument('link', type=str, required=True,
                           help='URL of the feed to delete')
 
+## Mark as read
+readparser = reqparse.RequestParser()
+readparser.add_argument('guid', type=str, required=True,
+                        help='GUID of item to mark as read')
+readparser.add_argument('feedlink', type=str, required=True,
+                        help='Parent feed of item (in case of conflicting GUIDs)')
+
 # Set up return value mashers
 ## Get
 ### Single feed item
@@ -155,7 +162,8 @@ class Feeds(Resource):
 
             feed['tag'] = sub['usertag']
             # Set items on feed for json conversion
-            feed['items'] = [feeditem_to_dict(i) for i in r['items']]
+            feed['items'] = [feeditem_to_dict(i, r) for i, r in zip(r['items'],
+                                                                    r['reads'])]
             # Add to list
             feeds.append(feed)
 
@@ -208,6 +216,18 @@ class FeedsDeleter(Resource):
         return None, 204
 
 
+class FeedsItemReadMarker(Resource):
+    @log_errors
+    @authorized
+    def post(self, userid):
+        '''Mark an item as read'''
+        args = readparser.parse_args()
+
+        db.mark_as_read(userid, args.guid, args.feedlink)
+
+        return None, 204
+
+
 class PingResponder(Resource):
     '''
     A method that allows the app to query if the server is alive.
@@ -220,4 +240,5 @@ class PingResponder(Resource):
 # Connect with API URLs
 api.add_resource(Feeds, '/feeds')
 api.add_resource(FeedsDeleter, '/feeds/delete')
+api.add_resource(FeedsItemReadMarker, '/feeds/markasread')
 api.add_resource(PingResponder, '/ping')
