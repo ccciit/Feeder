@@ -67,7 +67,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 3 or sys.argv[1] != '-c':
         exit(__doc__)
 
-    db = get_database('http://localhost:7575/db/data/')
+    db = get_database('http://localhost:7474/db/data/')
     presetup(db)
 
     configfile = sys.argv[2]
